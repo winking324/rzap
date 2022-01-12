@@ -2,13 +2,15 @@
 
 Log rotate for uber-zap
 
+## How to install
+
+`go get github.com/winking324/rzap`
+
 ## How to use
 
-Create and set to global.
-
 ``` go
-NewGlobalLogger([]zapcore.Core{
-    NewCore(&lumberjack.Logger{
+rzap.NewGlobalLogger([]zapcore.Core{
+    rzap.NewCore(&lumberjack.Logger{
         Filename:   "/your/log/path/app.log",
         MaxSize:    10,   // 10 megabytes, defaults to 100 megabytes
         MaxAge:     10,   // 10 days, default is not to remove old log files
@@ -23,13 +25,13 @@ zap.L().Info("some message", zap.Int("status", 0))
 ## Log to files at different levels
 
 ``` go
-NewGlobalLogger([]zapcore.Core{
-    NewCore(&lumberjack.Logger{
+rzap.NewGlobalLogger([]zapcore.Core{
+    rzap.NewCore(&lumberjack.Logger{
         Filename: "/path/to/info.log",
     }, zap.LevelEnablerFunc(func(level zapcore.Level) bool {
         return level <= zap.InfoLevel
     })),
-    NewCore(&lumberjack.Logger{
+    rzap.NewCore(&lumberjack.Logger{
         Filename: "/path/to/error.log",
     }, zap.LevelEnablerFunc(func(level zapcore.Level) bool {
         return level > zap.InfoLevel
